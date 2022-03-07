@@ -179,9 +179,9 @@ const tableData = ref({
 
 const selectedData = ref({ data: {} });
 
-const selectedAttrsCopy = Object.assign({}, { ...tableData.value.attrs });
-console.log(selectedAttrsCopy);
-const selectedAttrs = ref({});
+const selectedAttrsCopy = JSON.parse(JSON.stringify(tableData.value.attrs));
+// console.log(selectedAttrsCopy);
+const selectedAttrs = ref(selectedAttrsCopy);
 
 const removeSelection = (id: string) => {
   delete selectedData.value.data[id];
@@ -192,18 +192,22 @@ const addSelection = (id: string) => {
 };
 
 const toggleSelectedAttrs = (attrGroupKey: string, attrKey: string) => {
-  console.log(attrGroupKey, attrKey);
+  // console.log(attrGroupKey, attrKey);
   if (
     selectedAttrs.value[attrGroupKey] &&
     selectedAttrs.value[attrGroupKey][attrKey]
   ) {
     delete selectedAttrs.value[attrGroupKey][attrKey];
+  } else {
+    selectedAttrs.value[attrGroupKey][attrKey] =
+      tableData.value.attrs[attrGroupKey][attrKey];
   }
 };
 
 onMounted(() => {
-  selectedAttrs.value = tableData.value.attrs;
-  console.log(selectedAttrs.value);
+  // selectedAttrs.value = tableData.value.attrs;
+  console.log("selectedAttrs.value", selectedAttrs.value);
+  console.log("selectedAttrsCopy", selectedAttrsCopy);
 });
 </script>
 
