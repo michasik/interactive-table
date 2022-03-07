@@ -32,7 +32,7 @@
 
         <!-- VERTICAL HEADERS -->
         <template
-          v-for="attr in Object.keys(tableData.attrs[groupKey])"
+          v-for="attr in Object.keys(selectedAttrs[groupKey])"
           :key="attr.toString()"
         >
           <tr>
@@ -62,10 +62,11 @@
     </table>
 
     <!-- FILTERS -->
-    <div>
+    <div style="margin: 2rem">
       <div
         v-for="attrGroupKey in Object.keys(tableData.attrs)"
         :key="tableData.attrs[attrGroupKey].name"
+        style="margin: 1rem 0"
       >
         {{ tableData.attrs[attrGroupKey].name }}:
         <template
@@ -75,6 +76,7 @@
           <button
             v-if="!['header', 'name'].includes(attrKey)"
             @click="toggleSelectedAttrs(attrGroupKey, attrKey)"
+            style="margin: 0.25rem"
           >
             {{
               selectedAttrs[attrGroupKey] &&
@@ -91,7 +93,9 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, toRef } from "vue";
+import { onMounted, ref } from "vue";
+
+// INITIAL API DATA MOCK
 const tableData = ref({
   data: {
     vsf1: {
@@ -178,9 +182,7 @@ const tableData = ref({
 });
 
 const selectedData = ref({ data: {} });
-
 const selectedAttrsCopy = JSON.parse(JSON.stringify(tableData.value.attrs));
-// console.log(selectedAttrsCopy);
 const selectedAttrs = ref(selectedAttrsCopy);
 
 const removeSelection = (id: string) => {
@@ -204,11 +206,10 @@ const toggleSelectedAttrs = (attrGroupKey: string, attrKey: string) => {
   }
 };
 
-onMounted(() => {
-  // selectedAttrs.value = tableData.value.attrs;
-  console.log("selectedAttrs.value", selectedAttrs.value);
-  console.log("selectedAttrsCopy", selectedAttrsCopy);
-});
+// onMounted(() => {
+//   console.log("selectedAttrs.value", selectedAttrs.value);
+//   console.log("selectedAttrsCopy", selectedAttrsCopy);
+// });
 </script>
 
 <style lang="scss" scoped>
