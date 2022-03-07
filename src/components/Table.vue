@@ -24,7 +24,10 @@
       <template v-for="(groupKey, index) in Object.keys(tableData.attrs)">
         <!-- TABLE INNER HEADERS -->
         <tr
-          v-if="tableData.attrs[groupKey].header"
+          v-if="
+            tableData.attrs[groupKey].header &&
+            Object.keys(selectedAttrs[groupKey]).length > 2
+          "
           :key="index + tableData.attrs[groupKey].header"
         >
           <td colspan="100%">{{ tableData.attrs[groupKey].header }}</td>
